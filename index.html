@@ -7,15 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        .f {
-            position: relative;
-            left: 200px;
-            top: 200px;
-        }
-
         .s {
             position: absolute;
-            top: 0;
+            top: 200px;
+            left: 200px;
             width: 400px;
             height: 400px;
             border: 1px solid #000;
@@ -38,10 +33,10 @@
         }
 
         .b {
-            /* display: none; */
+            display: none;
             position: absolute;
-            top: 0;
-            left: 500px;
+            top: 200px;
+            left: 620px;
             width: 400px;
             height: 400px;
             overflow: hidden;
@@ -55,48 +50,53 @@
 </head>
 
 <body>
-    <div class="f">
-        <div class="s">
-            <img src='./images/s.jpg'>
-            <div class="mask"></div>
-        </div>
-        <div class="b">
-            <img src="./images/big.jpg" alt="">
-        </div>
+    <div class="s">
+        <img src='./images/s.jpg'>
+        <div class="mask"></div>
+    </div>
+    <div class="b">
+        <img src="./images/big.jpg" alt="">
     </div>
 </body>
 <script>
-    var f = document.querySelector('.f');
     var s = document.querySelector('.s');
     var m = document.querySelector('.mask');
-    var b = s.nextElementSibling;
-    var b_img = b.firstElementChild;
+    var b = document.querySelector('.b');
+    var s_img = s.querySelector('img');
+    var b_img = b.querySelector('img');
+    s.addEventListener('mouseover', function () {
+        m.style.display = 'block';
+        b.style.display = 'block';
+    });
+    s.addEventListener('mouseout', function () {
+        m.style.display = 'none';
+        b.style.display = 'none';
+    })
     s.addEventListener('mousemove', function (e) {
-        var mt = e.pageY - f.offsetTop - m.offsetHeight / 2;
-        var ml = e.pageX - f.offsetLeft - m.offsetWidth / 2;
+        var mt = e.pageY - s.offsetTop - m.offsetHeight / 2;
+        var ml = e.pageX - s.offsetLeft - m.offsetWidth / 2;
         var l = s.offsetWidth - m.offsetWidth;
         var h = s.offsetHeight - m.offsetHeight;
         var rl = s.offsetWidth / m.offsetWidth;
         var rh = s.offsetHeight / m.offsetHeight;
-        m.style.display = 'block';
 
-        if (ml <= 0) {
+        if (ml < 0) {
             ml = 0;
-        } else if (ml >= l) {
+        } else if (ml > l) {
             ml = l;
         }
         if (mt <= 0) {
             mt = 0;
-        } else if (mt >= h) {
+        } else if (mt > h) {
             mt = h;
         }
-        console.log(mt, ml);
 
         m.style.top = mt + 'px';
         m.style.left = ml + 'px';
         b_img.style.left = ml * rl * -1 + 'px';
         b_img.style.top = mt * rh * -1 + 'px';
     });
+
 </script>
 
 </html>
