@@ -16,8 +16,8 @@
         .s {
             position: absolute;
             top: 0;
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
             border: 1px solid #000;
         }
 
@@ -31,8 +31,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             background: red;
             opacity: .5;
         }
@@ -42,10 +42,14 @@
             position: absolute;
             top: 0;
             left: 500px;
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
             overflow: hidden;
             border: 1px solid #000;
+        }
+
+        .b img {
+            position: absolute;
         }
     </style>
 </head>
@@ -65,22 +69,33 @@
     var f = document.querySelector('.f');
     var s = document.querySelector('.s');
     var m = document.querySelector('.mask');
+    var b = s.nextElementSibling;
+    var b_img = b.firstElementChild;
     s.addEventListener('mousemove', function (e) {
+        var mt = e.pageY - f.offsetTop - m.offsetHeight / 2;
+        var ml = e.pageX - f.offsetLeft - m.offsetWidth / 2;
         var l = s.offsetWidth - m.offsetWidth;
         var h = s.offsetHeight - m.offsetHeight;
+        var rl = s.offsetWidth / m.offsetWidth;
+        var rh = s.offsetHeight / m.offsetHeight;
         m.style.display = 'block';
-        m.style.top = e.pageY - f.offsetTop - m.offsetHeight / 2 + 'px';
-        m.style.left = e.pageX - f.offsetLeft - m.offsetWidth / 2 + 'px';
-        if (m.offsetLeft <= 0) {
-            m.style.left = 0;
-        } else if (m.offsetLeft >= l) {
-            m.style.left = l + 'px';
+
+        if (ml <= 0) {
+            ml = 0;
+        } else if (ml >= l) {
+            ml = l;
         }
-        if (m.offsetTop <= 0) {
-            m.style.top = 0;
-        } else if (m.offsetTop >= h) {
-            m.style.top = h + 'px';
+        if (mt <= 0) {
+            mt = 0;
+        } else if (mt >= h) {
+            mt = h;
         }
+        console.log(mt, ml);
+
+        m.style.top = mt + 'px';
+        m.style.left = ml + 'px';
+        b_img.style.left = ml * rl * -1 + 'px';
+        b_img.style.top = mt * rh * -1 + 'px';
     });
 </script>
 
